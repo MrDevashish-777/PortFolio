@@ -1,31 +1,42 @@
-// src/components/Chatbot.tsx
-import React, { useState } from "react";
-import axios from "axios";
+import { useState, useEffect, useRef } from "react";
 
 const Chatbot = () => {
-  const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
+  const [messages, setMessages] = useState([
+    {
+      role: "assistant",
+      content:
+        "👋 Hi! I'm Devashish's AI Assistant. Ask me anything about his skills, projects, resume, or experience.",
+    },
+  ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    const userMessage = { role: "user", content: input };
-    const updatedMessages = [...messages, userMessage];
-    setMessages(updatedMessages);
+    const userMsg = { role: "user", content: input };
+    const updated = [...messages, userMsg];
+    setMessages(updated);
     setInput("");
     setLoading(true);
 
     try {
-      const response = await axios.post("/api/chat", {
-        messages: updatedMessages,
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        body: JSON.stringify({ messages: updated }),
+        headers: { "Content-Type": "application/json" },
       });
-
-      setMessages([...updatedMessages, { role: "assistant", content: response.data.reply }]);
-    } catch (err) {
+      const data = await res.json();
+      setMessages([...updated, { role: "assistant", content: data.reply }]);
+    } catch {
       setMessages([
-        ...updatedMessages,
-        { role: "assistant", content: "⚠️ Error reaching AI. Try again later." },
+        ...updated,
+        { role: "assistant", content: "⚠️ Something went wrong. Please try again." },
       ]);
     } finally {
       setLoading(false);
@@ -33,40 +44,52 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="fixed bottom-5 right-5 w-[300px] bg-white dark:bg-gray-900 shadow-lg rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
-      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-3 text-white font-semibold">
-        🤖 Ask Devashish's AI Assistant
+    <div className="fixed bottom-6 right-6 z-50 w-[320px] bg-white dark:bg-gray-900 shadow-2xl rounded-xl border border-gray-300 dark:border-gray-700 flex flex-col overflow-hidden">
+      {/* Header */}
+      <div className="p-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold text-sm">
+        Devashish’s AI Assistant
       </div>
-      <div className="p-3 max-h-[300px] overflow-y-auto space-y-2 text-sm">
-        {messages.map((msg, idx) => (
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto px-3 py-2 space-y-2 text-sm max-h-[300px]">
+        {messages.map((m, i) => (
           <div
-            key={idx}
-            className={`p-2 rounded-md ${
-              msg.role === "user"
-                ? "bg-indigo-100 text-gray-800 self-end"
-                : "bg-gray-100 dark:bg-gray-800 dark:text-gray-200"
+            key={i}
+            className={`p-2 rounded-lg whitespace-pre-wrap ${
+              m.role === "user"
+                ? "bg-indigo-100 text-right"
+                : "bg-gray-100 dark:bg-gray-800 dark:text-gray-200 text-left"
             }`}
           >
-            <strong>{msg.role === "user" ? "You" : "AI"}:</strong> {msg.content}
+            {m.content}
           </div>
         ))}
-        {loading && <div className="text-gray-400">AI is typing...</div>}
+        {loading && <p className="text-gray-400">Typing...</p>}
+        <div ref={messagesEndRef} />
       </div>
-      <div className="flex border-t border-gray-200 dark:border-gray-700">
+
+      {/* Input */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          sendMessage();
+        }}
+        className="flex border-t border-gray-200 dark:border-gray-700"
+      >
         <input
-          className="flex-grow p-2 text-sm bg-transparent outline-none"
-          placeholder="Ask about Devashish's work..."
+          type="text"
+          className="flex-grow p-2 text-sm bg-transparent outline-none text-gray-900 dark:text-white placeholder-gray-400"
+          placeholder="Ask anything about Devashish..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
         />
         <button
-          className="bg-indigo-500 text-white px-3 hover:bg-indigo-600 transition"
-          onClick={sendMessage}
+          type="submit"
+          className="bg-indigo-600 text-white px-4 hover:bg-indigo-700 transition text-sm"
         >
           Send
         </button>
-      </div>
+      </form>
     </div>
   );
 };
