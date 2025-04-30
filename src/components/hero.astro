@@ -3,6 +3,9 @@ import { Picture } from "astro:assets";
 import heroImage from "@/assets/myself.jpeg";
 import Link from "@/components/ui/link.astro";
 import { Icon } from "astro-icon/components";
+import { motion } from "framer-motion";
+import AnimatedTagline from "@/components/AnimatedTagline";
+
 ---
 
 <main
@@ -26,6 +29,7 @@ import { Icon } from "astro-icon/components";
       class="text-5xl lg:text-6xl xl:text-7xl font-bold lg:tracking-tight xl:tracking-tighter">
       T.Devashish Pillay
     </h1>
+    <AnimatedTagline />
     <p class="text-lg mt-4 text-slate-600 max-w-xl">
       AI Enthusiast | Developer | Innovator
     </p>
