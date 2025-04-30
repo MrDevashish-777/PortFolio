@@ -1,4 +1,5 @@
-// src/pages/api/chat.ts
+export const prerender = false;
+
 import type { APIRoute } from "astro";
 import { OpenAI } from "openai";
 
@@ -55,3 +56,5 @@ If someone wants GitHub: https://github.com/devashish-pillay
     });
   }
 };
+
+console.log("Using OpenAI API Key:", import.meta.env.OPENAI_API_KEY);

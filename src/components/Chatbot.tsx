@@ -4,8 +4,7 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content:
-        "👋 Hi! I'm Devashish's AI Assistant. Ask me anything about his skills, projects, resume, or experience.",
+      content: "👋 Hi! I'm Devashish's AI Assistant. Ask me anything about his projects or skills!",
     },
   ]);
   const [input, setInput] = useState("");
@@ -18,29 +17,37 @@ const Chatbot = () => {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-
     const userMsg = { role: "user", content: input };
-    const updated = [...messages, userMsg];
-    setMessages(updated);
+    const updatedMessages = [...messages, userMsg];
+
+    setMessages(updatedMessages);
     setInput("");
     setLoading(true);
 
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
-        body: JSON.stringify({ messages: updated }),
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: updatedMessages }),
       });
+
       const data = await res.json();
-      setMessages([...updated, { role: "assistant", content: data.reply }]);
-    } catch {
-      setMessages([
-        ...updated,
-        { role: "assistant", content: "⚠️ Something went wrong. Please try again." },
-      ]);
+
+      if (data?.reply) {
+        setMessages([...updatedMessages, { role: "assistant", content: data.reply }]);
+      } else {
+        setMessages([...updatedMessages, { role: "assistant", content: "⚠️ No reply from bot." }]);
+      }
+    } catch (err) {
+      setMessages([...updatedMessages, { role: "assistant", content: "⚠️ Something went wrong." }]);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    sendMessage();
   };
 
   return (
@@ -68,18 +75,12 @@ const Chatbot = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input */}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          sendMessage();
-        }}
-        className="flex border-t border-gray-200 dark:border-gray-700"
-      >
+      {/* Input Box */}
+      <form onSubmit={handleSubmit} className="flex border-t border-gray-200 dark:border-gray-700">
         <input
           type="text"
           className="flex-grow p-2 text-sm bg-transparent outline-none text-gray-900 dark:text-white placeholder-gray-400"
-          placeholder="Ask anything about Devashish..."
+          placeholder="Ask something about Devashish..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
