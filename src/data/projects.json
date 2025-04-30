@@ -1,0 +1,8 @@
+[
+    {
+      "title": "Biometric Authentication System",
+      "description": "AI-powered fingerprint and face recognition app.",
+      "tech": ["React Native", "Firebase", "ResNet-50"],
+      "link": "https://github.com/yourname/biometric-app"
+    }
+  ]
