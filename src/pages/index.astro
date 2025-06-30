@@ -12,10 +12,36 @@ import AnimatedTagline from "../components/AnimatedTagline";
 <Layout title="">
   <Container>
     <Hero />
-    <AnimatedTagline />
     <Features />
     <Logos />
     <Cta />
   </Container>
   <Chatbot />
+  
+  <!-- Floating Action Button -->
+  <script>
+    import FloatingActionButton from "../components/FloatingActionButton";
+    
+    // Mount FAB after page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const fabContainer = document.getElementById('fab-container');
+      if (fabContainer && typeof window !== 'undefined') {
+        // FAB will be rendered via React
+        const fabScript = document.createElement('script');
+        fabScript.type = 'module';
+        fabScript.innerHTML = `
+          import { createElement } from 'react';
+          import { createRoot } from 'react-dom/client';
+          import FloatingActionButton from '/src/components/FloatingActionButton.tsx';
+          
+          const container = document.getElementById('fab-container');
+          if (container) {
+            const root = createRoot(container);
+            root.render(createElement(FloatingActionButton));
+          }
+        `;
+        document.head.appendChild(fabScript);
+      }
+    });
+  </script>
 </Layout>

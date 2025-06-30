@@ -56,9 +56,16 @@ const makeTitle = title
     />
   </head>
   <body>
+    <!-- Scroll Progress Indicator -->
+    <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 z-50 transition-all duration-300" style="width: 0%;"></div>
+    
     <Navbar />
     <slot />
     <Footer />
+    
+    <!-- Floating Action Button -->
+    <div id="fab-container"></div>
+    
     <style is:global>
       /* Improve Page speed */
       /* https://css-tricks.com/almanac/properties/c/content-visibility/ */
@@ -66,5 +73,67 @@ const makeTitle = title
         content-visibility: auto;
       }
     </style>
+    
+    <script>
+      // Scroll Progress Indicator
+      function updateScrollProgress() {
+        const scrollProgress = document.getElementById('scroll-progress');
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercentage = (scrollTop / scrollHeight) * 100;
+        
+        if (scrollProgress) {
+          scrollProgress.style.width = scrollPercentage + '%';
+        }
+      }
+      
+      // Smooth scroll for anchor links
+      function initSmoothScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href === '#') return;
+            
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) {
+              target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }
+          });
+        });
+      }
+      
+      // Initialize on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        updateScrollProgress();
+        initSmoothScroll();
+        
+        // Add scroll event listener
+        window.addEventListener('scroll', updateScrollProgress);
+        
+        // Add intersection observer for animations
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.style.animationPlayState = 'running';
+            }
+          });
+        }, observerOptions);
+        
+        // Observe all animated elements
+        document.querySelectorAll('.animate-slide-up, .animate-scale-in, .animate-float').forEach(el => {
+          el.style.animationPlayState = 'paused';
+          observer.observe(el);
+        });
+      });
+    </script>
   </body>
 </html>

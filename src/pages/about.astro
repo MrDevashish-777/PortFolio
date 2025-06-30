@@ -3,54 +3,212 @@ import { getCollection } from "astro:content";
 import { Picture } from "astro:assets";
 import Layout from "@/layouts/Layout.astro";
 import Container from "@/components/container.astro";
-import Sectionhead from "@/components/sectionhead.astro";
-import AboutMe from "@/components/AboutMe.jsx"
+import { Icon } from "astro-icon/components";
+import heroImage from "@/assets/myself.jpeg";
+import skillsData from "@/data/skills.json";
 
 // Filter team entries with 'draft: false' & date before current date
 const publishedTeamMembers = await getCollection("team", ({ data }) => {
   return !data.draft && data.publishDate < new Date();
 });
+
+const achievements = [
+  { number: "3+", label: "Years Experience", icon: "bx:bx-time" },
+  { number: "10+", label: "Projects Completed", icon: "bx:bx-code-alt" },
+  { number: "5+", label: "Technologies Mastered", icon: "bx:bx-cog" },
+  { number: "100%", label: "Client Satisfaction", icon: "bx:bx-happy" }
+];
+
+const timeline = [
+  {
+    year: "2024",
+    title: "Advanced AI Projects",
+    description: "Working on cutting-edge biometric authentication systems and forensic technology applications.",
+    icon: "bx:bx-brain"
+  },
+  {
+    year: "2023",
+    title: "Full-Stack Development",
+    description: "Mastered modern web development stack including React, Node.js, and cloud technologies.",
+    icon: "bx:bx-code-alt"
+  },
+  {
+    year: "2022",
+    title: "Computer Science Journey",
+    description: "Started my Computer Science and Engineering degree, focusing on AI and software development.",
+    icon: "bx:bx-book"
+  }
+];
 ---
 
 <Layout title="About">
-  <Container>
-    <Sectionhead>
-      <Fragment slot="title">About Me</Fragment>
-      <Fragment slot="desc">Innovating Secure Digital Solutions at the Intersection of Full-Stack Development, AI, and Cybersecurity.</Fragment>
-    </Sectionhead>
-
-    <div class="flex flex-col gap-3 mx-auto max-w-4xl mt-16">
-      <h2 class="font-bold text-3xl text-gray-800">
-        My Projects: 
-      </h2>
-      <p class="text-lg leading-relaxed text-slate-500">
-        I’m T. Devashish Pillay, a Computer Science and Engineering student with hands-on experience in full-stack development, biometric security systems, and AI applications. Currently working on live forensic tech projects, I bring strong technical skills, leadership experience, and a passion for building secure, user-centric digital solutions.
-      </p>
+  <!-- Enhanced About Section -->
+  <section class="py-20 relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 rounded-full blur-3xl"></div>
     </div>
-    <div class="grid md:grid-cols-3 gap-10 mx-auto max-w-4xl mt-12">
-      {
-        publishedTeamMembers.map((teamMemberEntry) => (
-          <div class="group">
-            <div class="w-full aspect-square">
-              <Picture
-                src={teamMemberEntry.data.avatar.src}
-                alt={teamMemberEntry.data.avatar.alt}
-                sizes="(max-width: 800px) 100vw, 400px"
-                width={400}
-                height={400}
-                class="w-full rounded-sm transition group-hover:-translate-y-1 group-hover:shadow-xl bg-white object-cover object-center aspect-square"
-              />
-            </div>
 
-            <div class="mt-4 text-center">
-              <h2 class="text-lg text-gray-800">{teamMemberEntry.data.name}</h2>
-              <h3 class="text-sm text-slate-500">
-                {teamMemberEntry.data.title}
-              </h3>
+    <Container>
+      <div class="relative z-10">
+        <!-- Hero Section -->
+        <div class="text-center max-w-4xl mx-auto mb-20 animate-slide-up">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 rounded-full font-medium mb-6">
+            <Icon class="w-5 h-5" name="bx:bx-user" />
+            <span>About Me</span>
+          </div>
+          
+          <h1 class="text-5xl lg:text-6xl font-bold lg:tracking-tight mb-6">
+            <span class="gradient-text">Innovating Digital Solutions</span>
+          </h1>
+          
+          <p class="text-xl text-slate-600 leading-relaxed">
+            At the intersection of Full-Stack Development, AI, and Cybersecurity
+          </p>
+          
+          <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-8 rounded-full"></div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid lg:grid-cols-2 gap-16 items-center mb-20">
+          <!-- Profile Image -->
+          <div class="animate-slide-up" style="animation-delay: 0.2s;">
+            <div class="relative group">
+              <div class="absolute -inset-4 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 rounded-2xl blur-lg opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
+              <div class="relative bg-white p-2 rounded-2xl shadow-2xl">
+                <Picture
+                  src={heroImage}
+                  alt="T. Devashish Pillay"
+                  widths={[400, 600, 800]}
+                  sizes="(max-width: 800px) 100vw, 600px"
+                  class="w-full rounded-xl object-cover"
+                />
+              </div>
             </div>
           </div>
-        ))
-      }
-    </div>
-  </Container>
+
+          <!-- About Content -->
+          <div class="space-y-6 animate-slide-up" style="animation-delay: 0.4s;">
+            <h2 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">
+              Hi, I'm <span class="gradient-text">Devashish</span>
+            </h2>
+            
+            <p class="text-lg leading-relaxed text-gray-600">
+              I'm a passionate Computer Science and Engineering student with hands-on experience in full-stack development, biometric security systems, and AI applications. Currently working on live forensic tech projects, I bring strong technical skills, leadership experience, and a passion for building secure, user-centric digital solutions.
+            </p>
+            
+            <p class="text-lg leading-relaxed text-gray-600">
+              My expertise spans across modern web technologies, artificial intelligence, and cybersecurity. I'm committed to leveraging cutting-edge technology to solve real-world problems and create impactful digital experiences.
+            </p>
+            
+            <!-- Skills Overview -->
+            <div class="grid grid-cols-2 gap-4 mt-8">
+              {Object.entries(skillsData).slice(0, 4).map(([category, skills]) => (
+                <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-xl hover-lift">
+                  <h4 class="font-semibold text-gray-800 mb-2">{category}</h4>
+                  <p class="text-sm text-gray-600">{skills.slice(0, 2).join(", ")}...</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Achievements Section -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg mb-20 animate-slide-up" style="animation-delay: 0.6s;">
+          <h3 class="text-2xl font-bold text-center mb-8 gradient-text">Achievements & Milestones</h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {achievements.map((achievement, index) => (
+              <div class="text-center group hover-scale" style={`animation-delay: ${0.8 + index * 0.1}s;`}>
+                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Icon class="w-8 h-8 text-white" name={achievement.icon} />
+                </div>
+                <div class="text-3xl font-bold text-gray-800 mb-2">{achievement.number}</div>
+                <div class="text-sm text-gray-600">{achievement.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="mb-20 animate-slide-up" style="animation-delay: 0.8s;">
+          <h3 class="text-3xl font-bold text-center mb-12 gradient-text">My Journey</h3>
+          <div class="max-w-4xl mx-auto">
+            {timeline.map((item, index) => (
+              <div class="flex gap-6 mb-8 last:mb-0 group">
+                <div class="flex flex-col items-center">
+                  <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <Icon class="w-6 h-6 text-white" name={item.icon} />
+                  </div>
+                  {index < timeline.length - 1 && (
+                    <div class="w-0.5 h-16 bg-gradient-to-b from-purple-300 to-pink-300 mt-4"></div>
+                  )}
+                </div>
+                <div class="flex-1 pb-8">
+                  <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 hover-lift">
+                    <div class="text-sm font-semibold text-purple-600 mb-2">{item.year}</div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-3">{item.title}</h4>
+                    <p class="text-gray-600 leading-relaxed">{item.description}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Team Section (if available) -->
+        {publishedTeamMembers.length > 0 && (
+          <div class="animate-slide-up" style="animation-delay: 1s;">
+            <h3 class="text-3xl font-bold text-center mb-12 gradient-text">Collaborations</h3>
+            <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              {publishedTeamMembers.map((teamMemberEntry, index) => (
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover-lift" style={`animation-delay: ${1.2 + index * 0.1}s;`}>
+                  <div class="relative overflow-hidden">
+                    <Picture
+                      src={teamMemberEntry.data.avatar.src}
+                      alt={teamMemberEntry.data.avatar.alt}
+                      sizes="(max-width: 800px) 100vw, 400px"
+                      width={400}
+                      height={400}
+                      class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                  <div class="p-6 text-center">
+                    <h4 class="text-lg font-bold text-gray-800 mb-2">{teamMemberEntry.data.name}</h4>
+                    <p class="text-sm text-gray-600">{teamMemberEntry.data.title}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Call to Action -->
+        <div class="text-center mt-20 animate-slide-up" style="animation-delay: 1.4s;">
+          <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-8 text-white">
+            <Icon class="w-12 h-12 mx-auto mb-4" name="bx:bx-chat" />
+            <h3 class="text-2xl font-bold mb-4">Let's Connect!</h3>
+            <p class="text-lg mb-6 opacity-90">I'm always excited to discuss new opportunities and innovative projects.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <a 
+                href="/contact" 
+                class="inline-flex items-center gap-2 px-8 py-3 bg-white text-purple-600 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover-scale"
+              >
+                <Icon class="w-5 h-5" name="bx:bx-envelope" />
+                <span>Get In Touch</span>
+              </a>
+              <a 
+                href="/project" 
+                class="inline-flex items-center gap-2 px-8 py-3 bg-white/20 text-white rounded-xl font-semibold hover:bg-white/30 transition-all duration-300 hover-scale"
+              >
+                <Icon class="w-5 h-5" name="bx:bx-code-alt" />
+                <span>View Projects</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
 </Layout>
