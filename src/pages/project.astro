@@ -1,9 +1,11 @@
 ---
-import { getCollection } from "astro:content";
-import { Picture } from "astro:assets";
+
 import Layout from "@/layouts/Layout.astro";
 import Container from "@/components/container.astro";
 import Sectionhead from "@/components/sectionhead.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { Icon } from "astro-icon/components";
+import projectsData from "@/data/projects.json";
 
 // Filter blog entries with 'draft: false' & date before current date
 const publishedBlogEntries = await getCollection("blog", ({ data }) => {
@@ -14,60 +16,158 @@ const publishedBlogEntries = await getCollection("blog", ({ data }) => {
 publishedBlogEntries.sort(function (a, b) {
   return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
 });
+
+// Enhanced projects data with additional sample projects
+const enhancedProjects = [
+  ...projectsData,
+  {
+    title: "Portfolio Website",
+    description: "Modern, responsive portfolio website built with Astro, React, and Tailwind CSS featuring advanced animations and AI-powered chatbot.",
+    tech: ["Astro", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    link: "#",
+    featured: true
+  },
+  {
+    title: "E-Commerce Platform",
+    description: "Full-stack e-commerce solution with payment integration, inventory management, and real-time analytics.",
+    tech: ["Next.js", "Node.js", "MongoDB", "Stripe", "Socket.io"],
+    link: "#"
+  },
+  {
+    title: "Task Management App",
+    description: "Collaborative task management application with real-time updates, file sharing, and team communication features.",
+    tech: ["React", "Express.js", "PostgreSQL", "Redis", "WebSocket"],
+    link: "#"
+  }
+];
 ---
 
-<Layout title="Blog">
-  <Container>
-    <Sectionhead>
-      <Fragment slot="title">My Projects</Fragment>
-      <Fragment slot="desc">
-        All My Projects are Shown Below in Detail
-      </Fragment>
-    </Sectionhead>
-    <main class="mt-16">
-      <ul class="grid gap-16 max-w-4xl mx-auto">
-        {
-          publishedBlogEntries.map((blogPostEntry, index) => (
-            <li>
-              <a href={`/project/${blogPostEntry.slug}`}>
-                <div class="grid md:grid-cols-2 gap-5 md:gap-10 items-center">
-                  <Picture
-                    src={blogPostEntry.data.image.src}
-                    alt={blogPostEntry.data.image.alt}
-                    sizes="(max-width: 800px) 100vw, 800px"
-                    width={800}
-                    height={600}
-                    loading={index <= 2 ? "eager" : "lazy"}
-                    decoding={index <= 2 ? "sync" : "async"}
-                    class="w-full rounded-md object-cover object-center bg-white"
-                  />
-                  <div>
-                    <span class="text-blue-400 uppercase tracking-wider text-sm font-medium">
-                      {blogPostEntry.data.category}
-                    </span>
+<Layout title="Projects">
+  <!-- Enhanced Projects Section -->
+  <section class="py-20 relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute top-40 right-20 w-64 h-64 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-40 left-20 w-80 h-80 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 rounded-full blur-3xl"></div>
+    </div>
 
-                    <h2 class="text-3xl font-semibold leading-snug tracking-tight mt-1 ">
-                      {blogPostEntry.data.title}
-                    </h2>
+    <Container>
+      <div class="relative z-10">
+        <!-- Enhanced Section Header -->
+        <div class="text-center max-w-4xl mx-auto mb-20 animate-slide-up">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 rounded-full font-medium mb-6">
+            <Icon class="w-5 h-5" name="bx:bx-code-alt" />
+            <span>My Work</span>
+          </div>
+          
+          <h1 class="text-5xl lg:text-6xl font-bold lg:tracking-tight mb-6">
+            <span class="gradient-text">Featured Projects</span>
+          </h1>
+          
+          <p class="text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto">
+            A showcase of my technical expertise through innovative projects that solve real-world problems using cutting-edge technologies.
+          </p>
+          
+          <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-8 rounded-full"></div>
+        </div>
 
-                    <div class="flex gap-2 mt-3">
-                      <span class="text-gray-400">
-                        {blogPostEntry.data.author}
-                      </span>
-                      <span class="text-gray-400">• </span>
-                      <time
-                        class="text-gray-400"
-                        datetime={blogPostEntry.data.publishDate.toISOString()}>
-                        {blogPostEntry.data.publishDate.toDateString()}
-                      </time>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </main>
-  </Container>
+        <!-- Enhanced Projects Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {
+            enhancedProjects.map((project, index) => (
+              <ProjectCard
+                title={project.title}
+                description={project.description}
+                tech={project.tech}
+                link={project.link}
+                featured={project.featured}
+                delay={`${index * 0.1}s`}
+              />
+            ))
+          }
+        </div>
+
+        <!-- Blog Projects Section -->
+        {publishedBlogEntries.length > 0 && (
+          <div class="mt-20">
+            <div class="text-center mb-12 animate-slide-up">
+              <h2 class="text-3xl lg:text-4xl font-bold mb-4">
+                <span class="gradient-text">Project Case Studies</span>
+              </h2>
+              <p class="text-lg text-slate-600">
+                Detailed insights into my development process and technical decisions.
+              </p>
+            </div>
+
+            <div class="grid gap-12 max-w-6xl mx-auto">
+              {
+                publishedBlogEntries.map((blogPostEntry, index) => (
+                  <article class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover-lift animate-slide-up" style={`animation-delay: ${index * 0.1}s;`}>
+                    <a href={`/project/${blogPostEntry.slug}`} class="block">
+                      <div class="grid md:grid-cols-2 gap-8 p-8">
+                        <div class="relative overflow-hidden rounded-xl">
+                          <img
+                            src={blogPostEntry.data.image.src}
+                            alt={blogPostEntry.data.image.alt}
+                            class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                            loading={index <= 2 ? "eager" : "lazy"}
+                          />
+                          <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                        
+                        <div class="flex flex-col justify-center">
+                          <div class="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 rounded-full font-medium text-sm mb-4 w-fit">
+                            <Icon class="w-4 h-4" name="bx:bx-category" />
+                            <span>{blogPostEntry.data.category}</span>
+                          </div>
+
+                          <h3 class="text-2xl lg:text-3xl font-bold text-gray-800 mb-4 group-hover:text-gray-900 transition-colors">
+                            {blogPostEntry.data.title}
+                          </h3>
+
+                          <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                            <div class="flex items-center gap-2">
+                              <Icon class="w-4 h-4" name="bx:bx-user" />
+                              <span>{blogPostEntry.data.author}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                              <Icon class="w-4 h-4" name="bx:bx-calendar" />
+                              <time datetime={blogPostEntry.data.publishDate.toISOString()}>
+                                {blogPostEntry.data.publishDate.toDateString()}
+                              </time>
+                            </div>
+                          </div>
+                          
+                          <div class="flex items-center gap-2 text-purple-600 font-semibold group-hover:gap-3 transition-all duration-300">
+                            <span>Read Case Study</span>
+                            <Icon class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" name="bx:bx-right-arrow-alt" />
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </article>
+                ))
+              }
+            </div>
+          </div>
+        )}
+
+        <!-- Call to Action -->
+        <div class="text-center mt-20 animate-slide-up" style="animation-delay: 0.8s;">
+          <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-8 text-white">
+            <Icon class="w-12 h-12 mx-auto mb-4" name="bx:bx-rocket" />
+            <h3 class="text-2xl font-bold mb-4">Ready to Start Your Project?</h3>
+            <p class="text-lg mb-6 opacity-90">Let's collaborate and bring your ideas to life with cutting-edge technology.</p>
+            <a 
+              href="/contact" 
+              class="inline-flex items-center gap-2 px-8 py-3 bg-white text-purple-600 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover-scale"
+            >
+              <Icon class="w-5 h-5" name="bx:bx-envelope" />
+              <span>Get In Touch</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
 </Layout>

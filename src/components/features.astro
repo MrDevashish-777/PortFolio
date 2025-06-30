@@ -4,65 +4,123 @@ import { Icon } from "astro-icon/components";
 
 const features = [
   {
-    title: "Management skills",
+    title: "Leadership & Management",
     description:
       "Strong management skills with the ability to lead teams, coordinate projects, and ensure timely, goal-oriented execution",
     icon: "bx:bxs-briefcase",
+    gradient: "from-purple-500 to-pink-500",
+    delay: "0.1s"
   },
   {
-    title: "Full-stack Webdeveloper",
+    title: "Full-Stack Development",
     description:
-      "Proficient Full-Stack Web Developer with hands-on experience in both front-end and back-end development. Skilled in building responsive, scalable, and user-centric web applications using technologies such as React, Node.js, and MongoDB.",
+      "Proficient Full-Stack Web Developer with hands-on experience in both front-end and back-end development. Skilled in building responsive, scalable, and user-centric web applications.",
     icon: "bx:bxs-window-alt",
+    gradient: "from-blue-500 to-cyan-500",
+    delay: "0.2s"
   },
   {
-    title: "Flexibity and Adaptibility",
+    title: "Flexibility & Adaptability",
     description:
       "Highly adaptable and flexible, able to quickly adjust to new technologies, environments, and team dynamics while maintaining productivity and a positive attitude.",
     icon: "bx:bxs-data",
+    gradient: "from-green-500 to-emerald-500",
+    delay: "0.3s"
   },
   {
-    title: "Proper use of AI",
+    title: "AI & Machine Learning",
     description:
       "Committed to leveraging the power of Artificial Intelligence to develop smarter, more efficient solutions, with practical experience in implementing AI-driven features in real-world applications.",
     icon: "bx:bxs-bot",
+    gradient: "from-orange-500 to-red-500",
+    delay: "0.4s"
   },
   {
-    title: "Critical Thinking and Analytical Skills",
+    title: "Critical Thinking & Analysis",
     description:
       "Strong critical thinking and analytical skills, with the ability to assess complex problems, evaluate possible solutions, and implement effective, data-driven strategies",
     icon: "bx:bxs-file-find",
+    gradient: "from-indigo-500 to-purple-500",
+    delay: "0.5s"
   },
   {
-    title: "Community",
+    title: "Community Engagement",
     description:
       "Active participant in the tech community, regularly engaging with industry professionals through forums, events, and collaborative projects to stay updated with the latest trends and best practices.",
     icon: "bx:bxs-user",
+    gradient: "from-pink-500 to-rose-500",
+    delay: "0.6s"
   },
 ];
 ---
 
-<div class="mt-16 md:mt-0">
-  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
-    A comprehensive overview of my technical and professional skills is presented below
-  </h2>
-  <p class="text-lg mt-4 text-slate-600">
-    This section highlights both my technical and non-technical skills, showcasing a well-rounded professional profile.
-  </p>
-</div>
+<!-- Enhanced Skills Section -->
+<section class="py-20 relative overflow-hidden">
+  <!-- Background Decorative Elements -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute top-20 right-20 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-xl"></div>
+    <div class="absolute bottom-20 left-20 w-40 h-40 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-xl"></div>
+  </div>
 
-<div class="grid sm:grid-cols-2 md:grid-cols-3 mt-16 gap-16">
-  {
-    features.map((item) => (
-      <div class="flex gap-4 items-start">
-        <div class="mt-1 bg-black rounded-full  p-2 w-8 h-8 shrink-0">
-          <Icon class="text-white" name={item.icon} />
-        </div>
-        <div>
-          <h3 class="font-semibold text-lg">{item.title}</h3>{" "}
-          <p class="text-slate-500 mt-2 leading-relaxed">{item.description}</p>
-        </div>
+  <div class="relative z-10">
+    <!-- Section Header -->
+    <div class="text-center max-w-4xl mx-auto mb-16 animate-slide-up">
+      <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight mb-6">
+        <span class="gradient-text">Skills & Expertise</span>
+      </h2>
+      <p class="text-xl text-slate-600 leading-relaxed">
+        A comprehensive overview of my technical and professional capabilities that drive innovation and success.
+      </p>
+      <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-6 rounded-full"></div>
+    </div>
+
+    <!-- Enhanced Skills Grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
+      {
+        features.map((item, index) => (
+          <div 
+            class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover-lift border border-gray-100 animate-slide-up"
+            style={`animation-delay: ${item.delay};`}
+          >
+            <!-- Card Background Gradient -->
+            <div class={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-500`}></div>
+            
+            <!-- Icon Container -->
+            <div class="relative mb-6">
+              <div class={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.gradient} p-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                <Icon class="text-white w-full h-full" name={item.icon} />
+              </div>
+              
+              <!-- Floating Dot -->
+              <div class={`absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-br ${item.gradient} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse`}></div>
+            </div>
+            
+            <!-- Content -->
+            <div class="relative z-10">
+              <h3 class="font-bold text-xl text-gray-800 mb-4 group-hover:text-gray-900 transition-colors">
+                {item.title}
+              </h3>
+              <p class="text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors">
+                {item.description}
+              </p>
+            </div>
+            
+            <!-- Hover Effect Line -->
+            <div class={`absolute bottom-0 left-0 h-1 bg-gradient-to-r ${item.gradient} w-0 group-hover:w-full transition-all duration-500 rounded-b-2xl`}></div>
+            
+            <!-- Corner Accent -->
+            <div class={`absolute top-4 right-4 w-2 h-2 bg-gradient-to-br ${item.gradient} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center mt-16 animate-slide-up" style="animation-delay: 0.8s;">
+      <div class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover-scale">
+        <Icon class="w-5 h-5" name="bx:bx-rocket" />
+        <span>Ready to collaborate? Let's build something amazing!</span>
       </div>
-    ))
-  }
-</div>
+    </div>
+  </div>
+</section>

@@ -1,9 +1,13 @@
 export const prerender = false;
 
 import type { APIRoute } from "astro";
+
 import { OpenAI } from "openai";
+import fs from "fs/promises";
+import path from "path";
 
 const openai = new OpenAI({ apiKey: import.meta.env.OPENAI_API_KEY });
+
 
 export const POST: APIRoute = async ({ request }) => {
   const body = await request.json();
@@ -14,21 +18,43 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   try {
-    // Construct system prompt for smart HR assistant
+    // Load portfolio data
+    const skillsPath = path.resolve("src/data/skills.json");
+    const projectsPath = path.resolve("src/data/projects.json");
+    const aboutPath = path.resolve("src/components/AboutMe.tsx");
+    const teamDir = path.resolve("src/content/team");
+
+    const [skillsRaw, projectsRaw] = await Promise.all([
+      fs.readFile(skillsPath, "utf-8"),
+      fs.readFile(projectsPath, "utf-8"),
+    ]);
+    const skills = JSON.parse(skillsRaw);
+    const projects = JSON.parse(projectsRaw);
+
+    // About Me summary (hardcoded for now, could parse AboutMe.tsx)
+    const about = "I'm T. Devashish Pillay, a final-year Computer Science student passionate about building impactful tech solutions. I specialize in AI-driven applications like facial and fingerprint recognition, and love working with modern tools like React, Firebase, Astro, and ResNet-50.";
+
+    // Team projects (read all .md files in team/)
+    let teamSummaries = [];
+    try {
+      const teamFiles = await fs.readdir(teamDir);
+      for (const file of teamFiles) {
+        if (file.endsWith(".md")) {
+          const content = await fs.readFile(path.join(teamDir, file), "utf-8");
+          const match = content.match(/name: "([^"]+)"[\s\S]*?title: "([^"]+)"/);
+          if (match) {
+            teamSummaries.push(`- ${match[1]}: ${match[2]}`);
+          }
+        }
+      }
+    } catch {}
+
+    // Build system prompt
+    const systemPrompt = `You are a professional AI assistant representing T. Devashish Pillay. Use only the following data to answer questions in a professional, concise, and friendly manner. If you don't know, say so honestly.\n\nAbout: ${about}\n\nSkills: ${Object.entries(skills).map(([cat, arr]) => `${cat}: ${arr.join(", ")}`).join("; ")}\n\nProjects: ${projects.map((p: any) => `${p.title} - ${p.description} (Tech: ${p.tech.join(", ")})`).join("; ")}\n\nTeam Projects: ${teamSummaries.join("; ")}\n\nIf someone asks about his resume, link to: https://your-resume-link.com\nIf someone wants GitHub: https://github.com/devashish-pillay`;
+
     const systemMessage = {
       role: "system",
-      content: `
-You are a helpful AI chatbot representing T. Devashish Pillay, a final-year Computer Science student at S.B. Jain College.
-Your job is to answer HR or recruiters' questions about his:
-- Skills (Python, React Native, Firebase, Google Colab, Astro, ResNet-50, face/fingerprint recognition)
-- Projects (Biometric Verification App, Forensics Portal for Government)
-- Achievements or experience
-Be professional, warm, concise, and showcase Devashish's best qualities.
-Respond in well-structured short paragraphs.
-
-If someone asks about his resume, link to: https://your-resume-link.com
-If someone wants GitHub: https://github.com/devashish-pillay
-`,
+      content: systemPrompt,
     };
 
     const chatCompletion = await openai.chat.completions.create({
@@ -37,6 +63,7 @@ If someone wants GitHub: https://github.com/devashish-pillay
     });
 
     const reply = chatCompletion.choices[0].message.content || "No reply from AI.";
+
 
     // Simple HR interaction log (replace with Firestore later if needed)
     console.log({
@@ -56,5 +83,3 @@ If someone wants GitHub: https://github.com/devashish-pillay
     });
   }
 };
-
-console.log("Using OpenAI API Key:", import.meta.env.OPENAI_API_KEY);
