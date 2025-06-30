@@ -1,13 +1,8 @@
 export const prerender = false;
 
 import type { APIRoute } from "astro";
-
-import { OpenAI } from "openai";
 import fs from "fs/promises";
 import path from "path";
-
-const openai = new OpenAI({ apiKey: import.meta.env.OPENAI_API_KEY });
-
 
 export const POST: APIRoute = async ({ request }) => {
   const body = await request.json();
@@ -21,7 +16,6 @@ export const POST: APIRoute = async ({ request }) => {
     // Load portfolio data
     const skillsPath = path.resolve("src/data/skills.json");
     const projectsPath = path.resolve("src/data/projects.json");
-    const aboutPath = path.resolve("src/components/AboutMe.tsx");
     const teamDir = path.resolve("src/content/team");
 
     const [skillsRaw, projectsRaw] = await Promise.all([
@@ -49,35 +43,32 @@ export const POST: APIRoute = async ({ request }) => {
       }
     } catch {}
 
-    // Build system prompt
-    const systemPrompt = `You are a professional AI assistant representing T. Devashish Pillay. Use only the following data to answer questions in a professional, concise, and friendly manner. If you don't know, say so honestly.\n\nAbout: ${about}\n\nSkills: ${Object.entries(skills).map(([cat, arr]) => `${cat}: ${(arr as string[]).join(", ")}`).join("; ")}\n\nProjects: ${projects.map((p: any) => `${p.title} - ${p.description} (Tech: ${p.tech.join(", ")})`).join("; ")}\n\nTeam Projects: ${teamSummaries.join("; ")}\n\nIf someone asks about his resume, link to: https://your-resume-link.com\nIf someone wants GitHub: https://github.com/devashish-pillay`;
+    // Get the latest user message
+    const userInput = userMessages[userMessages.length - 1]?.content?.toLowerCase() || "";
 
-    const systemMessage = {
-      role: "system",
-      content: systemPrompt,
-    };
+    // Simple keyword-based matching
+    let reply = "Sorry, I couldn't find an answer to your question.";
 
-    const chatCompletion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [systemMessage, ...userMessages],
-    });
-
-    const reply = chatCompletion.choices[0].message.content || "No reply from AI.";
-
-
-    // Simple HR interaction log (replace with Firestore later if needed)
-    console.log({
-      asked: userMessages[userMessages.length - 1]?.content,
-      reply,
-      timestamp: new Date().toISOString(),
-    });
+    if (userInput.includes("skill") || userInput.includes("tech stack") || userInput.includes("technology")) {
+      reply = `Here are my skills:\n` + Object.entries(skills).map(([cat, arr]) => `${cat}: ${(arr as string[]).join(", ")}`).join("; ");
+    } else if (userInput.includes("project")) {
+      reply = `Here are some of my projects:\n` + projects.map((p: any) => `${p.title} - ${p.description} (Tech: ${p.tech.join(", ")})`).join("; ");
+    } else if (userInput.includes("about") || userInput.includes("yourself") || userInput.includes("who are you") || userInput.includes("bio")) {
+      reply = about;
+    } else if (userInput.includes("team")) {
+      reply = `Team Projects:\n` + teamSummaries.join("; ");
+    } else if (userInput.includes("resume")) {
+      reply = `You can view my resume here: https://your-resume-link.com`;
+    } else if (userInput.includes("github")) {
+      reply = `Here is my GitHub: https://github.com/devashish-pillay`;
+    }
 
     return new Response(JSON.stringify({ reply }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
   } catch (err: any) {
-    console.error("AI Chat Error:", err);
+    console.error("Local Chatbot Error:", err);
     return new Response(JSON.stringify({ reply: "⚠️ Something went wrong with the assistant." }), {
       status: 500,
     });
