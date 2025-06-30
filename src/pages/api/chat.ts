@@ -35,7 +35,7 @@ export const POST: APIRoute = async ({ request }) => {
     const about = "I'm T. Devashish Pillay, a final-year Computer Science student passionate about building impactful tech solutions. I specialize in AI-driven applications like facial and fingerprint recognition, and love working with modern tools like React, Firebase, Astro, and ResNet-50.";
 
     // Team projects (read all .md files in team/)
-    let teamSummaries = [];
+    let teamSummaries: string[] = [];
     try {
       const teamFiles = await fs.readdir(teamDir);
       for (const file of teamFiles) {
@@ -50,7 +50,7 @@ export const POST: APIRoute = async ({ request }) => {
     } catch {}
 
     // Build system prompt
-    const systemPrompt = `You are a professional AI assistant representing T. Devashish Pillay. Use only the following data to answer questions in a professional, concise, and friendly manner. If you don't know, say so honestly.\n\nAbout: ${about}\n\nSkills: ${Object.entries(skills).map(([cat, arr]) => `${cat}: ${arr.join(", ")}`).join("; ")}\n\nProjects: ${projects.map((p: any) => `${p.title} - ${p.description} (Tech: ${p.tech.join(", ")})`).join("; ")}\n\nTeam Projects: ${teamSummaries.join("; ")}\n\nIf someone asks about his resume, link to: https://your-resume-link.com\nIf someone wants GitHub: https://github.com/devashish-pillay`;
+    const systemPrompt = `You are a professional AI assistant representing T. Devashish Pillay. Use only the following data to answer questions in a professional, concise, and friendly manner. If you don't know, say so honestly.\n\nAbout: ${about}\n\nSkills: ${Object.entries(skills).map(([cat, arr]) => `${cat}: ${(arr as string[]).join(", ")}`).join("; ")}\n\nProjects: ${projects.map((p: any) => `${p.title} - ${p.description} (Tech: ${p.tech.join(", ")})`).join("; ")}\n\nTeam Projects: ${teamSummaries.join("; ")}\n\nIf someone asks about his resume, link to: https://your-resume-link.com\nIf someone wants GitHub: https://github.com/devashish-pillay`;
 
     const systemMessage = {
       role: "system",
