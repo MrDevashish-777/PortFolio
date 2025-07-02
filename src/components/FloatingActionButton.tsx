@@ -9,8 +9,7 @@ export default function FloatingActionButton() {
   const menuItems = [
     {
       icon: "📧",
-      label: "Contact",
-      href: "/contact",
+      // ...existing code...
       color: "from-blue-500 to-blue-600"
     },
     {
