@@ -1,12 +1,26 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ReactNode } from "react";
 
-interface PageTransitionProps {
-  children: ReactNode;
+
+type PageTransitionProps = {
+  children: any;
   className?: string;
-}
+};
+
+import { useEffect } from "react";
 
 export default function PageTransition({ children, className = "" }: PageTransitionProps) {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const html = document.documentElement;
+      const prevScrollBehavior = html.style.scrollBehavior;
+      html.style.scrollBehavior = "auto";
+      window.scrollTo(0, 0);
+      // Restore after a tick
+      setTimeout(() => {
+        html.style.scrollBehavior = prevScrollBehavior || "";
+      }, 0);
+    }
+  }, []);
   const pageVariants = {
     initial: {
       opacity: 0,

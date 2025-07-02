@@ -3,6 +3,8 @@ import { SEO } from "astro-seo";
 import Footer from "@/components/footer.astro";
 import Navbar from "@/components/navbar/navbar.astro";
 import CustomCursor from "@/components/CustomCursor";
+import PageTransition from "@/components/PageTransition";
+import GoUpButton from "@/components/GoUpButton";
 import "@fontsource-variable/inter/index.css";
 import "@fontsource-variable/bricolage-grotesque";
 import "../styles/global.css";
@@ -60,14 +62,14 @@ const makeTitle = title
     <CustomCursor client:load />
     <!-- Scroll Progress Indicator -->
     <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 z-50 transition-all duration-300" style="width: 0%;"></div>
-    
     <Navbar />
-    <slot />
+    <PageTransition client:load>
+      <slot />
+    </PageTransition>
     <Footer />
-    
+    <GoUpButton client:load />
     <!-- Floating Action Button -->
     <div id="fab-container"></div>
-    
     <style is:global>
       /* Improve Page speed */
       /* https://css-tricks.com/almanac/properties/c/content-visibility/ */
@@ -75,7 +77,6 @@ const makeTitle = title
         content-visibility: auto;
       }
     </style>
-    
     <script>
       // Scroll Progress Indicator
       function updateScrollProgress() {
