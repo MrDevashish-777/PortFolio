@@ -25,16 +25,22 @@ const Chatbot = () => {
     setLoading(true);
 
     try {
+      // Personalize the system prompt for Ollama
+      const systemPrompt = `You are a helpful AI assistant for T. Devashish Pillay's portfolio website.\n\nAbout Devashish: I'm T. Devashish Pillay, a final-year Computer Science student passionate about building impactful tech solutions. I specialize in AI-driven applications like facial and fingerprint recognition, and love working with modern tools like React, Firebase, Astro, and ResNet-50.\n\nSkills: Frontend: React, TailwindCSS, HTML, CSS; Backend: Node, Express, Firebase, MongoDB; AI/ML: Python, ResNet-50, Google Colab, OpenCV; DevOps/Tools: GitHub.\n\nProjects: Biometric Authentication System - AI-powered fingerprint and face recognition app. (Tech: React Native, Firebase, ResNet-50)\n\nTeam Project: Biosecure - An Advance App using AI, Biometric, Cloud, Block-Chain.\n\nIf users ask about Devashish, his skills, projects, or team, answer conversationally and informatively. If you don't know, say so.`;
+
+      // Send only the latest user message and the system prompt for best LLM results
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: updatedMessages }),
+        body: JSON.stringify({
+          message: `${systemPrompt}\n\nUser: ${input}\nAssistant:`
+        }),
       });
 
       const data = await res.json();
 
-      if (data?.reply) {
-        setMessages([...updatedMessages, { role: "assistant", content: data.reply }]);
+      if (data?.response) {
+        setMessages([...updatedMessages, { role: "assistant", content: data.response }]);
       } else {
         setMessages([...updatedMessages, { role: "assistant", content: "⚠️ No reply from bot." }]);
       }
