@@ -1,4 +1,51 @@
+
 @import 'tailwindcss';
+/* Custom Glowing Dot Cursor */
+
+/* Hide default cursor, show only custom */
+html, body, a, button, [role="button"], input, textarea, select, label {
+  cursor: none !important;
+}
+
+/* Custom Cursor Styles */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  background: radial-gradient(circle, #008080 80%, rgba(0,32,32,0.7) 100%);
+  box-shadow: 0 0 16px 4px #008080cc;
+  transition: transform 0.18s cubic-bezier(.4,2,.6,1), background 0.2s;
+  mix-blend-mode: multiply;
+}
+.custom-cursor.trailing {
+  width: 36px;
+  height: 36px;
+  opacity: 0.25;
+  filter: blur(4px);
+  background: radial-gradient(circle, #008080 60%, transparent 100%);
+  box-shadow: 0 0 32px 8px #00808055;
+  transition: transform 0.28s cubic-bezier(.4,2,.6,1);
+}
+.custom-cursor.main {
+  border: 2px solid #008080;
+  background: #008080;
+  opacity: 0.92;
+}
+.custom-cursor.cursor-hover,
+.custom-cursor.trailing.cursor-hover {
+  background: radial-gradient(circle, #1e90ff 60%, #6f42c1 100%);
+  box-shadow: 0 0 32px 8px #1e90ff99, 0 0 64px 16px #6f42c155;
+  transform: scale(1.7);
+}
+.custom-cursor.main.cursor-hover {
+  border-color: #1e90ff;
+  background: #1e90ff;
+}
 
 @plugin '@tailwindcss/typography';
 
