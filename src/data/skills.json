@@ -1,7 +1,7 @@
 {
-    "Frontend": ["React", "TailwindCSS", "HTML", "CSS"],
-    "Backend": ["Node", "Express", "Firebase", "MongoDB"],
-    "AI / ML": ["Python", "ResNet-50", "Google Colab", "OpenCV"],
-    "DevOps / Tools": ["GitHub"]
-  }
+  "Frontend": ["React.js", "JavaScript", "HTML5", "CSS3", "Tailwind CSS"],
+  "Backend": ["Node.js", "Express.js", "Firebase", "MongoDB", "Supabase"],
+  "App Development": ["React Native", "API Integration", "Authentication"],
+  "Open Source & Soft Skills": ["Git", "GitHub", "Collaboration", "Problem-Solving", "Teamwork", "Communication", "Leadership"]
+}
   

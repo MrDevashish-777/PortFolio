@@ -1,16 +1,18 @@
 ---
-import Link from "./ui/link.astro";
+import Link from './ui/link.astro';
 ---
 
 <div
-  class="bg-black p-8 md:px-20 md:py-20 mt-20 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center">
-  <h2 class="text-white text-4xl md:text-6xl tracking-tight">
-    Would you like to review my resume?
+  class="bg-gradient-to-r from-indigo-600 to-purple-600 p-8 md:px-20 md:py-20 mt-20 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center shadow-xl">
+  <h2 class="text-white text-4xl md:text-6xl tracking-tight font-bold">
+    Let's Work Together
   </h2>
-  <p class="text-slate-400 mt-4 text-lg md:text-xl">
-    A comprehensive overview of my professional journey and experiences, highlighting key milestones, skills acquired, and accomplishments achieved throughout my career.
+  <p class="text-white/80 mt-4 text-lg md:text-xl max-w-2xl">
+    I'm currently available for freelance work and open to discussing new opportunities. 
+    If you're interested in collaborating, feel free to reach out!
   </p>
-  <div class="flex mt-5">
-    <Link href="#" style="inverted">Click Here</Link>
+  <div class="flex flex-col sm:flex-row gap-4 mt-8">
+    <Link href="/contact" style="inverted">Contact Me</Link>
+    <Link href="/resume.pdf" style="inverted" download>Download Resume</Link>
   </div>
 </div>

@@ -60,11 +60,10 @@ const timeline = [
           </div>
           
           <h1 class="text-5xl lg:text-6xl font-bold lg:tracking-tight mb-6">
-            <span class="gradient-text">Innovating Digital Solutions</span>
+            <span class="gradient-text">T. Devashish Pillay</span>
           </h1>
-          
           <p class="text-xl text-slate-600 leading-relaxed">
-            At the intersection of Full-Stack Development, AI, and Cybersecurity
+            Dedicated B.Tech CSE student with strong JavaScript and React fundamentals, passionate about open-source development and learning frameworks like Next.js. Experienced in building responsive web applications and contributing to real-world projects. Strong problem-solving, adaptability, and communication skills.
           </p>
           
           <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-8 rounded-full"></div>
@@ -93,23 +92,93 @@ const timeline = [
             <h2 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">
               Hi, I'm <span class="gradient-text">Devashish</span>
             </h2>
-            
             <p class="text-lg leading-relaxed text-gray-600">
-              I'm a passionate Computer Science and Engineering student with hands-on experience in full-stack development, biometric security systems, and AI applications. Currently working on live forensic tech projects, I bring strong technical skills, leadership experience, and a passion for building secure, user-centric digital solutions.
+              Dedicated B.Tech CSE student with strong JavaScript and React fundamentals, passionate about open-source development and learning frameworks like Next.js. Experienced in building responsive web applications and contributing to real-world projects. Strong problem-solving, adaptability, and communication skills.
             </p>
-            
-            <p class="text-lg leading-relaxed text-gray-600">
-              My expertise spans across modern web technologies, artificial intelligence, and cybersecurity. I'm committed to leveraging cutting-edge technology to solve real-world problems and create impactful digital experiences.
-            </p>
-            
-            <!-- Skills Overview -->
-            <div class="grid grid-cols-2 gap-4 mt-8">
-              {Object.entries(skillsData).slice(0, 4).map(([category, skills]) => (
-                <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-xl hover-lift">
-                  <h4 class="font-semibold text-gray-800 mb-2">{category}</h4>
-                  <p class="text-sm text-gray-600">{skills.slice(0, 2).join(", ")}...</p>
+
+            <!-- Skills Section -->
+            <div class="mt-8">
+              <h3 class="text-2xl font-semibold text-indigo-500 mb-4">Skills</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="font-semibold mb-2 text-gray-800">Frontend</h4>
+                  <p class="text-sm text-gray-600">React.js, JavaScript, HTML5, CSS3, Tailwind CSS</p>
                 </div>
-              ))}
+                <div>
+                  <h4 class="font-semibold mb-2 text-gray-800">Backend</h4>
+                  <p class="text-sm text-gray-600">Node.js, Express.js, Firebase, MongoDB, Supabase</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-2 text-gray-800">App Development</h4>
+                  <p class="text-sm text-gray-600">React Native, API Integration, Authentication</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-2 text-gray-800">Open Source & Soft Skills</h4>
+                  <p class="text-sm text-gray-600">Git, GitHub, Collaboration, Problem-Solving, Teamwork, Communication, Leadership</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Experience Section -->
+            <div class="mt-10">
+              <h3 class="text-2xl font-semibold text-indigo-500 mb-4">Experience</h3>
+              <ul class="space-y-2 text-gray-700">
+                <li><span class="font-bold">Live Project Member – Crypto Forensic Technology (Present):</span> Developing biometric security systems in a team environment.</li>
+                <li><span class="font-bold">Web Development Intern – HOTIT Institute Pvt. Ltd (2024):</span> Built and maintained responsive React applications.</li>
+                <li><span class="font-bold">Website Manager – Jain International School (Aug 2023 – Apr 2024):</span> Managed site via CPanel, improved UI/UX and features.</li>
+              </ul>
+            </div>
+
+            <!-- Education Section -->
+            <div class="mt-10">
+              <h3 class="text-2xl font-semibold text-indigo-500 mb-4">Education</h3>
+              <ul class="space-y-2 text-gray-700">
+                <li><span class="font-bold">B.Tech CSE – S. B. Jain Institute of Technology, Management & Research, Nagpur (2022–2026):</span> GPA: 8.58/10</li>
+                <li><span class="font-bold">Higher Secondary – Nirala Junior College:</span> 77.5%</li>
+                <li><span class="font-bold">Secondary – Sri Chaitanya International Olympiad School:</span> 86.6%</li>
+              </ul>
+            </div>
+
+            <!-- Projects Section -->
+            <div class="mt-10">
+              <h3 class="text-2xl font-semibold text-indigo-500 mb-4">Projects</h3>
+              <ul class="space-y-2 text-gray-700">
+                <li><span class="font-bold">BioSecure:</span> Biometric security system with CFT</li>
+                <li><span class="font-bold">Down The Hell:</span> Pygame obstacle adventure game</li>
+                <li><span class="font-bold">CodeFlex:</span> Event management website for IEEE</li>
+                <li><span class="font-bold">GitHub Contributions:</span> Active repositories and pull requests</li>
+              </ul>
+            </div>
+
+            <!-- Achievements / Positions Section -->
+            <div class="mt-10">
+              <h3 class="text-2xl font-semibold text-indigo-500 mb-4">Achievements / Positions</h3>
+              <ul class="space-y-2 text-gray-700">
+                <li>Technical Head – IEEE SBJITMR (2023–24)</li>
+                <li>Vice President – Neev Forum (2022–23)</li>
+                <li>Managed Jain International School website for 6 months</li>
+                <li>Hackathon participation (IEEE, Code Tantra, etc.)</li>
+              </ul>
+            </div>
+
+            <!-- Certifications Section -->
+            <div class="mt-10">
+              <h3 class="text-2xl font-semibold text-indigo-500 mb-4">Certifications</h3>
+              <ul class="space-y-2 text-gray-700">
+                <li>NPTEL – Design and Analysis of Algorithms (2024)</li>
+              </ul>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="mt-10">
+              <h3 class="text-2xl font-semibold text-indigo-500 mb-4">Contact</h3>
+              <ul class="space-y-2 text-lg">
+                <li><span class="font-bold">Email:</span> <a href="mailto:devashishpillay777@gmail.com" class="text-indigo-600 hover:underline">devashishpillay777@gmail.com</a></li>
+                <li><span class="font-bold">Phone:</span> <a href="tel:+917499223329" class="text-indigo-600 hover:underline">+91 7499223329</a></li>
+                <li><span class="font-bold">Location:</span> Nagpur, Maharashtra, India</li>
+                <li><span class="font-bold">GitHub:</span> <a href="https://github.com/MrDevashish-777" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline">github.com/MrDevashish-777</a></li>
+                <li><span class="font-bold">LinkedIn:</span> <a href="https://linkedin.com/in/devashish-pillay" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline">linkedin.com/in/devashish-pillay</a></li>
+              </ul>
             </div>
           </div>
         </div>

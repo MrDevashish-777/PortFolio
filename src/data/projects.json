@@ -1,8 +1,26 @@
 [
-    {
-      "title": "Biometric Authentication System",
-      "description": "AI-powered fingerprint and face recognition app.",
-      "tech": ["React Native", "Firebase", "ResNet-50"],
-      "link": "https://github.com/yourname/biometric-app"
-    }
-  ]
+  {
+    "title": "BioSecure",
+    "description": "Biometric security system with CFT",
+    "tech": ["React Native", "Firebase", "ResNet-50"],
+    "link": "https://github.com/MrDevashish-777/BioSecure"
+  },
+  {
+    "title": "Down The Hell",
+    "description": "Pygame obstacle adventure game",
+    "tech": ["Python", "Pygame"],
+    "link": "https://github.com/MrDevashish-777/Down-The-Hell"
+  },
+  {
+    "title": "CodeFlex",
+    "description": "Event management website for IEEE",
+    "tech": ["React.js", "Node.js", "MongoDB"],
+    "link": "https://github.com/MrDevashish-777/CodeFlex"
+  },
+  {
+    "title": "GitHub Contributions",
+    "description": "Active repositories and pull requests",
+    "tech": ["GitHub", "Open Source"],
+    "link": "https://github.com/MrDevashish-777"
+  }
+]
