@@ -8,30 +8,29 @@ const CustomCursor: React.FC = () => {
     const cursor = cursorRef.current;
     const trailing = trailingRef.current;
     if (!cursor || !trailing) return;
+    // Don't initialize on touch-only devices
+    if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none)').matches) {
+      // show default cursor in this case
+      cursor.style.display = 'none';
+      trailing.style.display = 'none';
+      return;
+    }
 
     let mouseX = 0, mouseY = 0;
     let trailingX = 0, trailingY = 0;
 
-    const moveCursor = (e: MouseEvent) => {
+    const mainSize = 18; // matches CSS
+    const trailingSize = 36;
+
+    const moveCursor = (e: PointerEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-    };
-
-    const animateTrailing = () => {
-      trailingX += (mouseX - trailingX) * 0.15;
-      trailingY += (mouseY - trailingY) * 0.15;
-      trailing.style.transform = `translate3d(${trailingX}px, ${trailingY}px, 0)`;
-      requestAnimationFrame(animateTrailing);
-    };
-
-    document.addEventListener('mousemove', moveCursor);
-    animateTrailing();
-
-    // Handle clickable hover
-    const handlePointer = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest('a, button, [role="button"], input, textarea, select, label')) {
+      // center the cursor on pointer
+      cursor.style.transform = `translate3d(${mouseX - mainSize / 2}px, ${mouseY - mainSize / 2}px, 0)`;
+      // check hover target under pointer
+      const el = document.elementFromPoint(mouseX, mouseY) as HTMLElement | null;
+      const isInteractive = el && el.closest && el.closest('a, button, [role="button"], input, textarea, select, label');
+      if (isInteractive) {
         cursor.classList.add('cursor-hover');
         trailing.classList.add('cursor-hover');
       } else {
@@ -39,13 +38,20 @@ const CustomCursor: React.FC = () => {
         trailing.classList.remove('cursor-hover');
       }
     };
-    document.addEventListener('mouseover', handlePointer);
-    document.addEventListener('mouseout', handlePointer);
+
+    const animateTrailing = () => {
+      // trailing follows with easing
+      trailingX += (mouseX - trailingX) * 0.15;
+      trailingY += (mouseY - trailingY) * 0.15;
+      trailing.style.transform = `translate3d(${trailingX - trailingSize / 2}px, ${trailingY - trailingSize / 2}px, 0)`;
+      requestAnimationFrame(animateTrailing);
+    };
+
+    document.addEventListener('pointermove', moveCursor);
+    animateTrailing();
 
     return () => {
-      document.removeEventListener('mousemove', moveCursor);
-      document.removeEventListener('mouseover', handlePointer);
-      document.removeEventListener('mouseout', handlePointer);
+      document.removeEventListener('pointermove', moveCursor);
     };
   }, []);
 

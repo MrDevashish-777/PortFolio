@@ -1,0 +1,77 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Container from "@/components/container.astro";
+import { Icon } from "astro-icon/components";
+
+const experiences = [
+  {
+    role: "Full Stack Developer Intern",
+    company: "Tars Technologies",
+    period: "May 2025 – Jun 2025",
+    bullets: [
+      "Built and deployed full-stack apps using React (Vite), JavaScript, TailwindCSS, MongoDB, Firebase",
+      "Implemented responsive UI, auth flows, and real-time features",
+      "Collaborated with design & backend teams using agile workflows"
+    ]
+  },
+  {
+    role: "Live Project Member",
+    company: "Crypto Forensic Technology",
+    period: "Aug 2024 – Nov 2025",
+    bullets: [
+      "Built & maintained responsive web apps",
+      "Managed website via CPanel",
+      "Developed biometric security & forensic systems"
+    ]
+  },
+  {
+    role: "Web Dev Intern",
+    company: "HOTIT Institute",
+    period: "Jun 2024",
+    bullets: ["Developed full website with HTML/CSS/JS/PHP & MySQL"]
+  },
+  {
+    role: "Website Manager",
+    company: "Jain International School",
+    period: "Aug 2023 – Apr 2024",
+    bullets: ["Managed official website, improved UI/UX, SEO, QA, bug fixes"]
+  }
+];
+---
+
+<Layout title="Experience">
+  <section class="py-20">
+    <Container>
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold">Experience</h1>
+        <p class="text-slate-600 mt-4">Internships, roles and live projects showcasing practical impact.</p>
+      </div>
+
+      <div class="grid gap-8 max-w-4xl mx-auto">
+        {experiences.map((exp, idx) => (
+          <article class="bg-white/80 dark:bg-slate-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div class="flex items-start justify-between">
+              <div>
+                <h3 class="text-xl font-semibold">{exp.role}</h3>
+                <p class="text-sm text-slate-500">{exp.company}</p>
+              </div>
+              <div class="text-sm text-slate-400">{exp.period}</div>
+            </div>
+            <ul class="mt-4 list-inside space-y-2 text-slate-700 dark:text-slate-200">
+              {exp.bullets.map(b => (
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 text-purple-500"><Icon name="bx:bx-right-arrow" class="w-4 h-4" /></span>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="/project" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl">View Projects</a>
+      </div>
+    </Container>
+  </section>
+</Layout>

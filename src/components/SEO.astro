@@ -1,0 +1,27 @@
+---
+const { title, description, url, image, author, site } = Astro.props;
+const ld = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: author || "T. Devashish Pillay",
+  url: site || url || "https://your-site.com",
+  jobTitle: "Full-Stack Developer",
+  email: "devashishp.cse22@sbjit.edu.in",
+  telephone: "+91 7499223329",
+  sameAs: [
+    "https://github.com/MrDevashish-777",
+    "https://linkedin.com/in/devashish-pillay"
+  ]
+};
+---
+
+<head>
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={image} />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">{JSON.stringify(ld)}</script>
+</head>

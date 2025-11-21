@@ -1,0 +1,33 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Container from "@/components/container.astro";
+import skillsData from "@/data/skills.json";
+---
+
+<Layout title="Skills">
+  <section class="py-20">
+    <Container>
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold">Skills</h1>
+        <p class="text-slate-600 mt-4">Organized by category for quick scanning.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {Object.entries(skillsData).map(([category, items]) => (
+          <div class="bg-white/80 dark:bg-slate-800 rounded-2xl p-6 shadow-lg">
+            <h3 class="font-semibold text-lg mb-4 text-purple-600">{category}</h3>
+            <div class="flex flex-wrap gap-3">
+              {items.map(item => (
+                <span class="px-3 py-1 bg-white dark:bg-slate-700 rounded-full text-sm shadow-sm">{item}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="/project" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl">See Projects</a>
+      </div>
+    </Container>
+  </section>
+</Layout>

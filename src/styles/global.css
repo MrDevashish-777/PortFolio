@@ -2,9 +2,12 @@
 @import 'tailwindcss';
 /* Custom Glowing Dot Cursor */
 
-/* Hide default cursor, show only custom */
-html, body, a, button, [role="button"], input, textarea, select, label {
+/* Hide default cursor for non-text controls; keep native cursor for inputs/textareas/selects */
+html, body, a, button, [role="button"] {
   cursor: none !important;
+}
+input, textarea, select, button, [contenteditable], label {
+  cursor: auto !important;
 }
 
 /* Custom Cursor Styles */
@@ -47,6 +50,31 @@ html, body, a, button, [role="button"], input, textarea, select, label {
   background: #1e90ff;
 }
 
+/* Theme toggle styles */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 28px;
+  border-radius: 9999px;
+  padding: 4px;
+  background: rgba(255,255,255,0.06);
+  transition: background 250ms ease, transform 300ms ease;
+  position: relative;
+}
+.theme-toggle .knob {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(180deg,#fff 0%,#e6e6e6 100%);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transform: translateX(0);
+  transition: transform 300ms cubic-bezier(0.2,0.8,0.2,1), background 250ms ease;
+}
+.theme-toggle.dark { background: rgba(255,255,255,0.04); }
+.theme-toggle.dark .knob { transform: translateX(20px); background: linear-gradient(180deg,#2b2b2b 0%, #111827 100%); }
+
 @plugin '@tailwindcss/typography';
 
 @theme {
@@ -67,6 +95,14 @@ html, body, a, button, [role="button"], input, textarea, select, label {
   --border-radius: 12px;
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Dark theme variables */
+:root.dark, .dark {
+  --bg-0: #0b1020;
+  --bg-1: #0f1724;
+  --muted: #9aa4b2;
+  --surface: rgba(255,255,255,0.03);
 }
 
 /* Enhanced Animations */
@@ -165,6 +201,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Smooth theme transitions when toggling */
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 250ms ease, color 250ms ease, border-color 250ms ease, box-shadow 300ms ease !important;
+}
+
 /* Enhanced Focus States */
 *:focus {
   outline: 2px solid #667eea;
@@ -189,7 +232,22 @@ html {
   }
   
   body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, var(--bg-0, #f5f7fa) 0%, var(--bg-1, #c3cfe2) 100%);
+    color: var(--text-color, #111827);
     min-height: 100vh;
+  }
+}
+
+/* Respect user reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-gradient,
+  .animate-slide-up,
+  .animate-scale-in,
+  .custom-cursor,
+  .custom-cursor.trailing {
+    animation: none !important;
+    transition: none !important;
   }
 }

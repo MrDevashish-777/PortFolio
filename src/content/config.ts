@@ -1,5 +1,5 @@
 // 1. Import utilities from `astro:content`
-import { defineCollection, z, image } from "astro:content";
+import { defineCollection, z } from "astro:content";
 
 // 2. Define your collection(s)
 const blogCollection = defineCollection({
@@ -24,7 +24,8 @@ const projectCollection = defineCollection({
     name: z.string(),
     title: z.string(),
     avatar: z.object({
-      src: image(),
+      // Use a string path for avatar src to avoid version-specific image() helper issues
+      src: z.string(),
       alt: z.string(),
     }),
     publishDate: z.string().transform(str => new Date(str)),

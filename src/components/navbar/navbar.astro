@@ -3,24 +3,16 @@ import Container from "@/components/container.astro";
 import Link from "@/components/ui/link.astro";
 import Dropdown from "./dropdown.astro";
 import { Astronav, MenuItems, MenuIcon } from "astro-navbar";
+import DarkModeToggle from "@/components/DarkModeToggle";
 import { Icon } from "astro-icon/components";
 
 const menuitems = [
-  {
-    title: "Skills",
-    path: "#skills",
-    icon: "bx:bx-code-alt"
-  },
-  {
-    title: "About Me",
-    path: "/about",
-    icon: "bx:bx-user"
-  },
-  {
-    title: "Projects",
-    path: "/project",
-    icon: "bx:bx-briefcase"
-  },
+  { title: "Home", path: "/", icon: "bx:bx-home" },
+  { title: "About", path: "/about", icon: "bx:bx-user" },
+  { title: "Experience", path: "/experience", icon: "bx:bx-briefcase" },
+  { title: "Projects", path: "/project", icon: "bx:bx-folder-open" },
+  { title: "Skills", path: "/skills", icon: "bx:bx-code-alt" },
+  { title: "Resume", path: "/resume", icon: "bx:bx-file" }
 ];
 ---
 
@@ -87,6 +79,10 @@ const menuitems = [
                 <!-- Shine Effect -->
                 <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12 rounded-xl"></div>
               </a>
+            </li>
+            <!-- Dark mode toggle -->
+            <li class="flex items-center ml-2 animate-slide-up" style="animation-delay: 0.7s;">
+              <DarkModeToggle client:load />
             </li>
           </ul>
         </MenuItems>

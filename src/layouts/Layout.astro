@@ -3,7 +3,7 @@ import { SEO } from "astro-seo";
 import Footer from "@/components/footer.astro";
 import Navbar from "@/components/navbar/navbar.astro";
 import CustomCursor from "@/components/CustomCursor";
-import PageTransition from "@/components/PageTransition";
+import PageTransition, { ScrollProgress } from "@/components/PageTransition";
 import GoUpButton from "@/components/GoUpButton";
 import "@fontsource-variable/inter/index.css";
 import "@fontsource-variable/bricolage-grotesque";
@@ -61,7 +61,7 @@ const makeTitle = title
   <body>
     <CustomCursor client:load />
     <!-- Scroll Progress Indicator -->
-    <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 z-50 transition-all duration-300" style="width: 0%;"></div>
+    <ScrollProgress client:load />
     <Navbar />
     <PageTransition client:load>
       <slot />
@@ -78,18 +78,6 @@ const makeTitle = title
       }
     </style>
     <script>
-      // Scroll Progress Indicator
-      function updateScrollProgress() {
-        const scrollProgress = document.getElementById('scroll-progress');
-        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollPercentage = (scrollTop / scrollHeight) * 100;
-        
-        if (scrollProgress) {
-          scrollProgress.style.width = scrollPercentage + '%';
-        }
-      }
-      
       // Smooth scroll for anchor links
       function initSmoothScroll() {
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -111,11 +99,7 @@ const makeTitle = title
       
       // Initialize on page load
       document.addEventListener('DOMContentLoaded', function() {
-        updateScrollProgress();
         initSmoothScroll();
-        
-        // Add scroll event listener
-        window.addEventListener('scroll', updateScrollProgress);
         
         // Add intersection observer for animations
         const observerOptions = {

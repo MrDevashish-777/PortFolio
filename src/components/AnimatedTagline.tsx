@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 const roles = [
   "AI Enthusiast",
@@ -12,6 +12,7 @@ const roles = [
 
 export default function AnimatedTagline() {
   const [currentRole, setCurrentRole] = useState(0);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -49,24 +50,24 @@ export default function AnimatedTagline() {
   const roleVariants = {
     enter: {
       opacity: 0,
-      y: 20,
-      scale: 0.9
+      y: 12,
+      scale: 0.96
     },
     center: {
       opacity: 1,
       y: 0,
       scale: 1,
       transition: {
-        duration: 0.5,
+        duration: shouldReduceMotion ? 0.01 : 0.45,
         ease: "easeOut"
       }
     },
     exit: {
       opacity: 0,
-      y: -20,
-      scale: 0.9,
+      y: -12,
+      scale: 0.96,
       transition: {
-        duration: 0.3,
+        duration: shouldReduceMotion ? 0.01 : 0.28,
         ease: "easeIn"
       }
     }
@@ -94,17 +95,20 @@ export default function AnimatedTagline() {
         variants={textVariants}
         className="text-lg md:text-xl font-semibold text-center h-8 relative"
       >
-        <span className="text-gray-600">I'm a </span>
-        <motion.span
-          key={currentRole}
-          variants={roleVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-bold"
-        >
-          {roles[currentRole]}
-        </motion.span>
+        <span className="text-gray-600 mr-2">I'm a</span>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.span
+            key={currentRole}
+            variants={roleVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-bold"
+            aria-live="polite"
+          >
+            {roles[currentRole]}
+          </motion.span>
+        </AnimatePresence>
       </motion.div>
 
       {/* Decorative Elements */}
