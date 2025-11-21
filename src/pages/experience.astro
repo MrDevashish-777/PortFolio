@@ -2,12 +2,17 @@
 import Layout from "@/layouts/Layout.astro";
 import Container from "@/components/container.astro";
 import { Icon } from "astro-icon/components";
+import ExperienceInteractive, { MagneticButton, AnimatedCounter } from "@/components/ExperienceInteractive";
+import ExperienceAnimations from "@/components/ExperienceAnimations.astro";
 
 const experiences = [
   {
     role: "Full Stack Developer Intern",
     company: "Tars Technologies",
     period: "May 2025 – Jun 2025",
+    type: "Internship",
+    color: "from-blue-500 to-cyan-500",
+    icon: "bx:bx-code-alt",
     bullets: [
       "Built and deployed full-stack apps using React (Vite), JavaScript, TailwindCSS, MongoDB, Firebase",
       "Implemented responsive UI, auth flows, and real-time features",
@@ -18,6 +23,9 @@ const experiences = [
     role: "Live Project Member",
     company: "Crypto Forensic Technology",
     period: "Aug 2024 – Nov 2025",
+    type: "Project",
+    color: "from-purple-500 to-pink-500",
+    icon: "bx:bx-shield-quarter",
     bullets: [
       "Built & maintained responsive web apps",
       "Managed website via CPanel",
@@ -28,50 +36,183 @@ const experiences = [
     role: "Web Dev Intern",
     company: "HOTIT Institute",
     period: "Jun 2024",
+    type: "Internship",
+    color: "from-green-500 to-emerald-500",
+    icon: "bx:bx-world",
     bullets: ["Developed full website with HTML/CSS/JS/PHP & MySQL"]
   },
   {
     role: "Website Manager",
     company: "Jain International School",
     period: "Aug 2023 – Apr 2024",
+    type: "Role",
+    color: "from-orange-500 to-red-500",
+    icon: "bx:bx-cog",
     bullets: ["Managed official website, improved UI/UX, SEO, QA, bug fixes"]
   }
 ];
 ---
 
 <Layout title="Experience">
-  <section class="py-20">
+  <!-- Hero Section -->
+  <section class="relative py-20 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"></div>
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%236366f1" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40"></div>
+    
     <Container>
-      <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold">Experience</h1>
-        <p class="text-slate-600 mt-4">Internships, roles and live projects showcasing practical impact.</p>
-      </div>
-
-      <div class="grid gap-8 max-w-4xl mx-auto">
-        {experiences.map((exp, idx) => (
-          <article class="bg-white/80 dark:bg-slate-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div class="flex items-start justify-between">
-              <div>
-                <h3 class="text-xl font-semibold">{exp.role}</h3>
-                <p class="text-sm text-slate-500">{exp.company}</p>
-              </div>
-              <div class="text-sm text-slate-400">{exp.period}</div>
-            </div>
-            <ul class="mt-4 list-inside space-y-2 text-slate-700 dark:text-slate-200">
-              {exp.bullets.map(b => (
-                <li class="flex items-start gap-3">
-                  <span class="mt-1 text-purple-500"><Icon name="bx:bx-right-arrow" class="w-4 h-4" /></span>
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
-          </article>
-        ))}
-      </div>
-
-      <div class="text-center mt-12">
-        <a href="/project" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl">View Projects</a>
+      <div class="relative text-center mb-16">
+        <div class="inline-block animate-float">
+          <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl">
+            <Icon name="bx:bx-briefcase-alt-2" class="w-10 h-10 text-white" />
+          </div>
+        </div>
+        <h1 class="text-5xl md:text-7xl font-bold bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 dark:from-white dark:via-purple-200 dark:to-white bg-clip-text text-transparent mb-6 animate-slide-up">
+          Experience
+        </h1>
+        <p class="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed animate-slide-up" style="animation-delay: 0.2s">
+          Journey through internships, roles and live projects showcasing practical impact and continuous growth.
+        </p>
       </div>
     </Container>
   </section>
+
+  <!-- Timeline Section -->
+  <section class="py-20 relative">
+    <Container>
+      <ExperienceInteractive client:load>
+        <div class="max-w-5xl mx-auto">
+          <!-- Stats Section -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 text-center">
+            <div class="animate-scale-in stagger-1">
+              <div class="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                <AnimatedCounter end={4} client:load />+
+              </div>
+              <p class="text-slate-600 dark:text-slate-400 text-sm">Experiences</p>
+            </div>
+            <div class="animate-scale-in stagger-2">
+              <div class="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                <AnimatedCounter end={2} client:load />+
+              </div>
+              <p class="text-slate-600 dark:text-slate-400 text-sm">Years Active</p>
+            </div>
+            <div class="animate-scale-in stagger-3">
+              <div class="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                <AnimatedCounter end={10} client:load />+
+              </div>
+              <p class="text-slate-600 dark:text-slate-400 text-sm">Projects</p>
+            </div>
+            <div class="animate-scale-in stagger-4">
+              <div class="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                <AnimatedCounter end={5} client:load />+
+              </div>
+              <p class="text-slate-600 dark:text-slate-400 text-sm">Technologies</p>
+            </div>
+          </div>
+          
+          <!-- Timeline Line -->
+          <div class="absolute left-1/2 transform -translate-x-px h-full w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 hidden lg:block timeline-line"></div>
+        
+        <div class="space-y-12 lg:space-y-16">
+          {experiences.map((exp, idx) => (
+            <div class={`relative flex items-center ${idx % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} flex-col lg:gap-16 gap-8 experience-item`} style={`animation-delay: ${idx * 0.2}s`}>
+              
+              <!-- Timeline Dot -->
+              <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white dark:bg-slate-800 rounded-full border-4 border-gradient-to-r from-blue-500 to-purple-500 shadow-lg z-10 hidden lg:flex items-center justify-center timeline-dot">
+                <div class={`w-2 h-2 rounded-full bg-gradient-to-r ${exp.color}`}></div>
+              </div>
+              
+              <!-- Content Card -->
+              <div class={`w-full lg:w-5/12 ${idx % 2 === 0 ? 'lg:text-right lg:pr-8' : 'lg:text-left lg:pl-8'}`}>
+                <div class="group relative">
+                  <!-- Glass Card -->
+                  <div class="relative bg-white/70 dark:bg-slate-800/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20 dark:border-slate-700/50 hover:shadow-3xl transition-all duration-500 hover:-translate-y-2 experience-card">
+                    
+                    <!-- Gradient Border Effect -->
+                    <div class={`absolute inset-0 bg-gradient-to-r ${exp.color} rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10 blur-xl`}></div>
+                    
+                    <!-- Type Badge -->
+                    <div class={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r ${exp.color} text-white mb-4 shadow-lg`}>
+                      <Icon name={exp.icon} class="w-4 h-4" />
+                      {exp.type}
+                    </div>
+                    
+                    <!-- Header -->
+                    <div class="mb-6">
+                      <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-blue-600 group-hover:to-purple-600 transition-all duration-300">
+                        {exp.role}
+                      </h3>
+                      <p class="text-lg font-semibold text-slate-600 dark:text-slate-300 mb-2">{exp.company}</p>
+                      <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                        <Icon name="bx:bx-calendar" class="w-4 h-4" />
+                        <span class="text-sm font-medium">{exp.period}</span>
+                      </div>
+                    </div>
+                    
+                    <!-- Achievements -->
+                    <ul class="space-y-3">
+                      {exp.bullets.map((bullet, bulletIdx) => (
+                        <li class="flex items-start gap-3 group/item" style={`animation-delay: ${(idx * 0.2) + (bulletIdx * 0.1)}s`}>
+                          <div class={`mt-1.5 w-2 h-2 rounded-full bg-gradient-to-r ${exp.color} flex-shrink-0 group-hover/item:scale-125 transition-transform duration-300`}></div>
+                          <span class="text-slate-700 dark:text-slate-200 leading-relaxed group-hover/item:text-slate-900 dark:group-hover/item:text-white transition-colors duration-300">
+                            {bullet}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    <!-- Hover Glow Effect -->
+                    <div class={`absolute inset-0 bg-gradient-to-r ${exp.color} rounded-3xl opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none`}></div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Mobile Timeline Connector -->
+              <div class="lg:hidden w-full flex justify-center">
+                <div class="w-px h-12 bg-gradient-to-b from-blue-500 to-purple-500"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+        </div>
+      </ExperienceInteractive>
+    </Container>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"></div>
+    <div class="absolute inset-0 bg-black/20"></div>
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="white" fill-opacity="0.1"%3E%3Cpolygon points="50 0 60 40 100 50 60 60 50 100 40 60 0 50 40 40"/%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+    
+    <Container>
+      <div class="relative text-center text-white">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6 animate-slide-up">
+          Ready to Collaborate?
+        </h2>
+        <p class="text-xl mb-8 opacity-90 max-w-2xl mx-auto animate-slide-up" style="animation-delay: 0.2s">
+          Explore my projects and see how I turn ideas into impactful solutions.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style="animation-delay: 0.4s">
+          <MagneticButton 
+            href="/project" 
+            className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-slate-900 rounded-2xl font-semibold hover:bg-slate-100 transition-all duration-300 hover:shadow-2xl"
+            client:load
+          >
+            <Icon name="bx:bx-folder-open" class="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
+            View Projects
+          </MagneticButton>
+          <MagneticButton 
+            href="/contact" 
+            className="group inline-flex items-center gap-3 px-8 py-4 bg-transparent border-2 border-white text-white rounded-2xl font-semibold hover:bg-white hover:text-slate-900 transition-all duration-300"
+            client:load
+          >
+            <Icon name="bx:bx-message-dots" class="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+            Get In Touch
+          </MagneticButton>
+        </div>
+      </div>
+    </Container>
+  </section>
+  
+  <ExperienceAnimations />
 </Layout>
